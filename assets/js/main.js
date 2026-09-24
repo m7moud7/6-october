@@ -44,9 +44,17 @@ function embedSrc(url) {
   return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
 }
 
+const bgSound = document.querySelector("#bg-sound");
+
+function playBackground() {
+  if (!bgSound || player.open) return;
+  bgSound.play().catch(() => {});
+}
+
 function openPlayer(index) {
   playerIndex = index;
   const card = playerCards[index];
+  if (bgSound) bgSound.pause();
   playerCaption.textContent = card.dataset.title || card.querySelector("h3").textContent.trim();
   playerFrame.src = embedSrc(card.dataset.embed);
   player.querySelectorAll(".player-thumb").forEach((thumb, thumbIndex) => {
@@ -58,6 +66,12 @@ function openPlayer(index) {
 player.querySelector(".player-close").addEventListener("click", () => player.close());
 player.addEventListener("close", () => {
   playerFrame.src = "";
+  playBackground();
+});
+playBackground();
+document.addEventListener("pointerdown", (event) => {
+  if (event.target.closest(".video-card, #player")) return;
+  playBackground();
 });
 player.addEventListener("click", (event) => {
   if (event.target === player) player.close();

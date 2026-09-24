@@ -730,6 +730,11 @@ color:#FFFFFFE5;
   body::before {
     background: url("../img/-main-bg.png") no-repeat top right;
     transform: scaleX(-1);
+    background-size: 100% 200% !important;
+  }
+  .hero::before{
+    background: linear-gradient(180deg, rgba(28, 34, 56, 0.15) 0%, rgba(28, 34, 56, 0.2) 50%, rgba(28, 34, 56, 0.85) 82%, #1C2238 100%);
+    inset:0
   }
   .video-slider .swiper-button-prev,
   .quote-slider .swiper-button-prev { right: 8px; }
@@ -741,14 +746,12 @@ color:#FFFFFFE5;
   body::before {
     background: url("../img/-main-bg.png") no-repeat top center;
     transform: scaleX(-1);
+    background-size: 100% 200% !important;
   }
   .hero{
     padding:32px 10px!important;
   }
-  .hero::before{
-    background: linear-gradient(180deg, rgba(28, 34, 56, 0.15) 0%, rgba(28, 34, 56, 0.2) 50%, rgba(28, 34, 56, 0.85) 82%, #1C2238 100%);
-    inset:0
-  }
+ 
   .story-grid,
   .quote-feature,
   .quote-pair { grid-template-columns: 1fr; }

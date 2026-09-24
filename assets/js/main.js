@@ -18,6 +18,57 @@ document.querySelectorAll("[data-share]").forEach((button) => {
   });
 });
 
+const player = document.querySelector("#player");
+const playerFrame = player.querySelector("iframe");
+const playerCaption = player.querySelector(".player-caption");
+const playerCards = [...document.querySelectorAll(".video-card")];
+const playerThumbs = player.querySelector(".player-thumbs");
+let playerIndex = 0;
+
+playerCards.forEach((card, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "player-thumb";
+  button.innerHTML = `<img src="${card.querySelector("img").src}" alt="">`;
+  button.addEventListener("click", () => openPlayer(index));
+  playerThumbs.append(button);
+  card.querySelector(".thumb").addEventListener("click", () => openPlayer(index));
+});
+
+function embedSrc(url) {
+  if (!url) return "";
+  const value = url.trim();
+  const match = value.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([\w-]{11})/);
+  const id = match ? match[1] : (/^[\w-]{11}$/.test(value) ? value : "");
+  if (!id) return value;
+  return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+}
+
+function openPlayer(index) {
+  playerIndex = index;
+  const card = playerCards[index];
+  playerCaption.textContent = card.dataset.title || card.querySelector("h3").textContent.trim();
+  playerFrame.src = embedSrc(card.dataset.embed);
+  player.querySelectorAll(".player-thumb").forEach((thumb, thumbIndex) => {
+    thumb.classList.toggle("is-active", thumbIndex === index);
+  });
+  if (!player.open) player.showModal();
+}
+
+player.querySelector(".player-close").addEventListener("click", () => player.close());
+player.addEventListener("close", () => {
+  playerFrame.src = "";
+});
+player.addEventListener("click", (event) => {
+  if (event.target === player) player.close();
+});
+player.querySelector(".player-next").addEventListener("click", () => {
+  openPlayer((playerIndex + 1) % playerCards.length);
+});
+player.querySelector(".player-prev").addEventListener("click", () => {
+  openPlayer((playerIndex - 1 + playerCards.length) % playerCards.length);
+});
+
 const videoSwiper = document.querySelector(".video-swiper");
 if (videoSwiper && window.Swiper) {
   new Swiper(videoSwiper, {

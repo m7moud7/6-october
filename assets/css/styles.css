@@ -522,12 +522,9 @@ text-align: right;
 }
 .quote-swiper .swiper-pagination-bullet-active { background: var(--red); }
 .quote-grid blockquote {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  min-height: calc(1em * 3);
-  max-height: calc(1.9em * 3);
+ display: flex;
+ align-items: center;
+  min-height: 190px;
   font-family: Almarai;
 font-weight: 400;
 font-size: 18px;
